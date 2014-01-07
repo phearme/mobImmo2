@@ -1,0 +1,107 @@
+﻿html, body, img {	
+	margin: 0;
+	padding: 0;
+	border: 0;
+	vertical-align: baseline;
+}
+
+html, body { height: 100%; }
+
+body {
+	text-align: center;
+	/*font-family: Roboto, Tahoma, Geneva, sans-serif;*/
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	-webkit-tap-highlight-color: transparent;
+	background-color: #E5E5E5;
+	color: #ffffff;
+}
+
+a {
+	color: #28E330;
+	font-weight: bold;
+	text-shadow: 1px 1px 0px #000000;
+	text-decoration: none;
+}
+
+.header {
+	position: fixed;
+	width: 100%;
+	left: 0px;
+	top: 0px;
+	height: 50px;
+	z-index: 99;
+	vertical-align: middle;
+	text-align: left;
+	line-height: 48px;
+	font-size: 20px;
+	background-color: #224958;
+	background-image: -webkit-linear-gradient(top, #446A7A, #224958);
+	-webkit-box-shadow: 0px 2px 3px #89959A;
+	box-shadow: 0px 2px 3px #89959A;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.backArrow {
+	float: left;
+	width: 16px;
+	font-size: 42px;
+	line-height: 40px;
+	color: #9A9A9A;
+}
+
+.content {
+	z-index: 98;
+	padding-top: 53px;
+	padding-bottom: 4px;
+}
+
+.departementBtn {
+	text-align: left;
+	font-size: 24px;
+	line-height: 36px;
+	margin: 4px;
+	padding: 4px;
+	-webkit-border-radius: 4px;
+	background-color: #224958;
+	background-image: -webkit-linear-gradient(top, #224958, #446A7A);
+	-webkit-box-shadow: 0px 2px 3px #89959A;
+	box-shadow: 0px 2px 3px #89959A;
+	text-shadow: 1px 1px #446A7A;
+}
+
+.depDetails {
+	font-size: 14px;
+	line-height: 14px;
+}
+
+.menuArrow {
+	float: right;
+	font-size: 34px;
+}
+
+.mainWrap {
+	padding-bottom: 60px;
+}
+
+.overlay {
+	position: absolute;
+	text-align: center;
+	width: 100%;
+	z-index: 99;
+}
+
+.bottomAdSpacer {
+	height: 60px;
+}
+
+.bottomAd {
+	position: fixed;
+	bottom: 0px;
+	left: 0px;
+	z-index: 99;
+	height: 60px;
+	width: 100%;
+	text-align: center;
+}
