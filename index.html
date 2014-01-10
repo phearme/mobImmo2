@@ -14,28 +14,24 @@
 <body>
 	<div id="screenMain" ng-controller="mainCtrl" class="mainWrap" ng-cloak>
 		<div id="mainHeader" class="header" ng-cloak>
-			<div touch-action="goBack" touch-btn="{{selectedScreen}}">
+			<div ng-click="openDepartement()" class="headerBackLabel">
 				<span class="backArrow">
-					<span ng-hide="selectedScreen">&nbsp;</span>
-					<span ng-show="selectedScreen">&#8249;</span>
+					<span ng-show="getLocation() === '/'">&nbsp;</span>
+					<span ng-hide="getLocation() === '/'">&#8249;</span>
 				</span>
-				<img style="float: left; margin-top: 8px;" src="img/logo_small.png" />
+				<img ng-show="getLocation() === '/'" style="float: left; margin-top: 8px;" src="img/logo_small.png" />
+				<span ng-bind="getHeaderLabel()"></span>
 			</div>
 			<div ng-show="loading" style="position: fixed; top: 0px; right: 0px; z-index: 99;">
 				<img src="img/loader.gif" />
 			</div>
 		</div>
-		<div class="content">
-			<div ng-repeat="(depCode, dep) in departements" class="departementBtn">
-				<span>{{dep.nom}} ({{depCode}})</span>
-				<span class="depDetails">Prix (m&#178;):</span>
-				<span class="depDetails">Var. trimestre:</span>
-				<div class="menuArrow">&#8250;</div>
-			</div>
-		</div>
+		<div class="content" ng-view></div>
 	</div>
 	<script type="text/javascript" src="js/angular.min.js"></script>
 	<script type="text/javascript" src="js/angular-sanitize.min.js"></script>
+	<script type="text/javascript" src="js/angular-touch.min.js"></script>
+	<script type="text/javascript" src="js/angular-route.min.js"></script>
 	<script type="text/javascript" src="js/immoClient.js"></script>
 	<script type="text/javascript" src="js/controller.js"></script>
 	<div class="bottomAd" id="divBottomAd"><script src="http://ad.leadboltads.net/show_app_ad.js?section_id=213984369"></script></div>
