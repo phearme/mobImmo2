@@ -21,6 +21,7 @@ mainapp.controller("mainCtrl", ["$scope", "$location", function ($scope, $locati
 	"use strict";
 
 	$scope.loading = true;
+	$scope.immoClient = immoClient;
 	$scope.departements = immoClient.departements;
 	$scope.safeApply = function (fn) {
 		var phase = this.$root.$$phase;
@@ -32,10 +33,10 @@ mainapp.controller("mainCtrl", ["$scope", "$location", function ($scope, $locati
 	};
 
 	$scope.openDepartement = function (depCode) {
-		console.log("openDepartement", depCode);
 		$scope.selectedDepCode = depCode;
 		if ($scope.selectedDepCode) {
 			$location.path("/Departement/" + depCode);
+			$scope.getSelectedDepData();
 		} else {
 			$location.path("/");
 		}
@@ -63,6 +64,15 @@ mainapp.controller("mainCtrl", ["$scope", "$location", function ($scope, $locati
 		return label;
 	};
 
+	$scope.goBack = function () {
+		var loc = $scope.getLocation();
+		if (loc.indexOf("/Departement/") >= 0) {
+			$scope.setLocation("/Departements/");
+		} else {
+			$scope.setLocation("/");
+		}
+	};
+
 	$scope.priceData = JSON.parse(localStorage.getItem("priceData")) || {};
 	immoClient.loadData(function (priceData) {
 		if (priceData) {
@@ -72,6 +82,35 @@ mainapp.controller("mainCtrl", ["$scope", "$location", function ($scope, $locati
 		$scope.loading = false;
 		$scope.safeApply();
 	});
+
+	$scope.getSelectedDepData = function () {
+		console.log("getSelectedDepData");
+		var code;
+		$scope.resultSimpleArray = [];
+		$scope.resultObjectArray = [];
+		if ($scope.selectedDepCode === "75") {
+			for (code in $scope.priceData) {
+				if ($scope.priceData.hasOwnProperty(code) && code.length > 5 && code.substring(0, 2) === $scope.selectedDepCode) {
+					if ($scope.priceData[code + "_app_prix"]) {
+						$scope.resultSimpleArray.push(code);
+						$scope.resultObjectArray.push({code: code, ville: $scope.priceData[code]});
+					}
+				}
+			}
+		} else if ($scope.selectedDepCode === "IdF") {
+			$scope.resultSimpleArray.push("gc");
+			$scope.resultObjectArray.push({code: "gc", ville: $scope.priceData["gc"]});
+			$scope.resultSimpleArray.push("pc");
+			$scope.resultObjectArray.push({code: "pc", ville: $scope.priceData["pc"]});
+		} else if ($scope.selectedDepCode) {
+			for (code in $scope.priceData) {
+				if ($scope.priceData.hasOwnProperty(code) && code.length > 2 && code.substring(0, 2) === $scope.selectedDepCode && code.indexOf("_") === -1) {
+					$scope.resultSimpleArray.push(code);
+					$scope.resultObjectArray.push({code: code, ville: $scope.priceData[code]});
+				}
+			}
+		}
+	};
 
 }]);
 /*

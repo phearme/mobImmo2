@@ -1,1 +1,69 @@
-﻿<div class="depHeader">{{departements[selectedDepCode].nom}} ({{selectedDepCode}})</div>
+﻿<div class="depHeader">
+	{{departements[selectedDepCode].nom}} ({{selectedDepCode}})
+	<table class="dataTable">
+		<tr>
+			<th colspan="2" ng-show="priceData[selectedDepCode + '_app_prix'] || priceData[selectedDepCode + '_app_var_tri'] || priceData[selectedDepCode + '_app_var1'] || priceData[selectedDepCode + '_app_var5']">Appartement</th>
+			<th colspan="2" ng-show="priceData[selectedDepCode + '_maison_prix'] || priceData[selectedDepCode + '_maison_var_tri'] || priceData[selectedDepCode + '_maison_var1'] || priceData[selectedDepCode + '_maison_var5']">Maison</th>
+		</tr>
+		<tr>
+			<td class="dataLabel" ng-show="priceData[selectedDepCode + '_app_prix']">Prix (m&#178;)</td>
+			<td class="dataValue" ng-show="priceData[selectedDepCode + '_app_prix']">{{priceData[selectedDepCode + "_app_prix"]}} &#8364;</td>
+			<td class="dataLabel" ng-show="priceData[selectedDepCode + '_maison_prix']">Prix</td>
+			<td class="dataValue" ng-show="priceData[selectedDepCode + '_maison_prix']">{{priceData[selectedDepCode + "_maison_prix"]}} &#8364;</td>
+		</tr>
+		<tr>
+			<td class="dataLabel" ng-show="priceData[selectedDepCode + '_app_var_tri']">Var. trim.</td>
+			<td class="dataValue" ng-show="priceData[selectedDepCode + '_app_var_tri']">{{priceData[selectedDepCode + "_app_var_tri"]}} &#37;</td>
+			<td class="dataLabel" ng-show="priceData[selectedDepCode + '_maison_var_tri']">Var. trim.</td>
+			<td class="dataValue" ng-show="priceData[selectedDepCode + '_maison_var_tri']">{{priceData[selectedDepCode + "_maison_var_tri"]}} &#37;</td>
+		</tr>
+		<tr>
+			<td class="dataLabel" ng-show="priceData[selectedDepCode + '_app_var1']">Var. 1 an</td>
+			<td class="dataValue" ng-show="priceData[selectedDepCode + '_app_var1']">{{priceData[selectedDepCode + "_app_var1"]}} &#37;</td>
+			<td class="dataLabel" ng-show="priceData[selectedDepCode + '_maison_var1']">Var. 1 an</td>
+			<td class="dataValue" ng-show="priceData[selectedDepCode + '_maison_var1']">{{priceData[selectedDepCode + "_maison_var1"]}} &#37;</td>
+		</tr>
+		<tr>
+			<td class="dataLabel" ng-show="priceData[selectedDepCode + '_app_var5']">Var. 5 an</td>
+			<td class="dataValue" ng-show="priceData[selectedDepCode + '_app_var5']">{{priceData[selectedDepCode + "_app_var5"]}} &#37;</td>
+			<td class="dataLabel" ng-show="priceData[selectedDepCode + '_maison_var5']">Var. 5 an</td>
+			<td class="dataValue" ng-show="priceData[selectedDepCode + '_maison_var5']">{{priceData[selectedDepCode + "_maison_var5"]}} &#37;</td>
+		</tr>
+	</table>
+</div>
+
+<select ng-model="selectedVille" ng-options="immoClient.decodeCityName(c.ville) for c in resultObjectArray"></select>
+
+<div ng-repeat="cp in resultSimpleArray" class="villeContainer" ng-show="priceData[cp + '_app_prix'] || priceData[cp + '_maison_prix']">
+	<div class="villeName" ng-bind-html="immoClient.decodeCityName(priceData[cp])"></div>
+	<table class="dataTable">
+		<tr>
+			<th colspan="2" ng-show="priceData[cp + '_app_prix'] || priceData[cp + '_app_var_tri'] || priceData[cp + '_app_var1'] || priceData[cp + '_app_var5']">Appartement</th>
+			<th colspan="2" ng-show="priceData[cp + '_maison_prix'] || priceData[cp + '_maison_var_tri'] || priceData[cp + '_maison_var1'] || priceData[cp + '_maison_var5']">Maison</th>
+		</tr>
+		<tr>
+			<td class="dataLabel" ng-show="priceData[cp + '_app_prix']">Prix (m&#178;)</td>
+			<td class="dataValue" ng-show="priceData[cp + '_app_prix']">{{priceData[cp + "_app_prix"]}} &#8364;</td>
+			<td class="dataLabel" ng-show="priceData[cp + '_maison_prix']">Prix</td>
+			<td class="dataValue" ng-show="priceData[cp + '_maison_prix']">{{priceData[cp + "_maison_prix"]}} &#8364;</td>
+		</tr>
+		<tr>
+			<td class="dataLabel" ng-show="priceData[cp + '_app_var_tri']">Var. trim.</td>
+			<td class="dataValue" ng-show="priceData[cp + '_app_var_tri']">{{priceData[cp + "_app_var_tri"]}} &#37;</td>
+			<td class="dataLabel" ng-show="priceData[cp + '_maison_var_tri']">Var. trim.</td>
+			<td class="dataValue" ng-show="priceData[cp + '_maison_var_tri']">{{priceData[cp + "_maison_var_tri"]}} &#37;</td>
+		</tr>
+		<tr>
+			<td class="dataLabel" ng-show="priceData[cp + '_app_var1']">Var. 1 an</td>
+			<td class="dataValue" ng-show="priceData[cp + '_app_var1']">{{priceData[cp + "_app_var1"]}} &#37;</td>
+			<td class="dataLabel" ng-show="priceData[cp + '_maison_var1']">Var. 1 an</td>
+			<td class="dataValue" ng-show="priceData[cp + '_maison_var1']">{{priceData[cp + "_maison_var1"]}} &#37;</td>
+		</tr>
+		<tr>
+			<td class="dataLabel" ng-show="priceData[cp + '_app_var5']">Var. 5 an</td>
+			<td class="dataValue" ng-show="priceData[cp + '_app_var5']">{{priceData[cp + "_app_var5"]}} &#37;</td>
+			<td class="dataLabel" ng-show="priceData[cp + '_maison_var5']">Var. 5 an</td>
+			<td class="dataValue" ng-show="priceData[cp + '_maison_var5']">{{priceData[cp + "_maison_var5"]}} &#37;</td>
+		</tr>
+	</table>
+</div>

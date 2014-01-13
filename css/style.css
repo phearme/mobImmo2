@@ -112,6 +112,38 @@ a, a:link, a:visited, a:hover, a:active {
 	box-shadow: 0px 1px 3px #89959A;
 }
 
+.villeContainer {
+	background-color: #ffffff;
+	color: #000000;
+	margin: 4px;
+	-webkit-box-shadow: 0px 1px 3px #89959A;
+	box-shadow: 0px 1px 3px #89959A;
+}
+
+.villeName {
+	color: #ffffff;
+	font-weight: bold;
+	width: 100%;
+	font-size: 18px;
+	text-align: left;
+	background-color: #224958;
+	background-image: -webkit-linear-gradient(top, #224958, #446A7A);
+}
+
+.dataTable {
+	width: 100%;
+	font-size: 16px;
+}
+
+.dataLabel {
+	text-align: left;
+}
+
+.dataValue {
+	text-align: right;
+	font-weight: bold;
+}
+
 .overlay {
 	position: absolute;
 	text-align: center;
