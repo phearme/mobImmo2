@@ -12,6 +12,8 @@ mainapp.config(["$routeProvider", function ($routeProvider) {
 		templateUrl: "search.html"
 	}).when("/Geoloc/", {
 		templateUrl: "geoloc.html"
+	}).when("/About/", {
+		templateUrl: "about.html"
 	}).otherwise({
 		templateUrl: "main.html"
 	});
@@ -21,6 +23,7 @@ mainapp.controller("mainCtrl", ["$scope", "$location", function ($scope, $locati
 	"use strict";
 
 	$scope.loading = true;
+	$scope.search = {text: ""};
 	$scope.immoClient = immoClient;
 	$scope.departements = immoClient.departements;
 	$scope.safeApply = function (fn) {
@@ -42,6 +45,13 @@ mainapp.controller("mainCtrl", ["$scope", "$location", function ($scope, $locati
 		}
 	};
 
+	$scope.openVille = function (code) {
+		$scope.selectedVille = code;
+		$scope.selectedDepCode = code.substring(0, 2);
+		$location.path("/Departement/" + $scope.selectedDepCode);
+		$scope.getSelectedDepData();
+	};
+
 	$scope.setLocation = function (path) {
 		$location.path(path);
 	};
@@ -60,6 +70,8 @@ mainapp.controller("mainCtrl", ["$scope", "$location", function ($scope, $locati
 			label = "Recherche";
 		} else if (loc.indexOf("/Geoloc/") >= 0) {
 			label = "Ma Position";
+		} else if (loc.indexOf("/About/") >= 0) {
+			label = "A propos...";
 		}
 		return label;
 	};
@@ -67,7 +79,12 @@ mainapp.controller("mainCtrl", ["$scope", "$location", function ($scope, $locati
 	$scope.goBack = function () {
 		var loc = $scope.getLocation();
 		if (loc.indexOf("/Departement/") >= 0) {
-			$scope.setLocation("/Departements/");
+			if ($scope.selectedVille) {
+				$scope.selectedVille = undefined;
+				$scope.setLocation("/Search/");
+			} else {
+				$scope.setLocation("/Departements/");
+			}
 		} else {
 			$scope.setLocation("/");
 		}
@@ -84,7 +101,6 @@ mainapp.controller("mainCtrl", ["$scope", "$location", function ($scope, $locati
 	});
 
 	$scope.getSelectedDepData = function () {
-		console.log("getSelectedDepData");
 		var code;
 		$scope.resultSimpleArray = [];
 		$scope.resultObjectArray = [];
@@ -105,19 +121,75 @@ mainapp.controller("mainCtrl", ["$scope", "$location", function ($scope, $locati
 		} else if ($scope.selectedDepCode) {
 			for (code in $scope.priceData) {
 				if ($scope.priceData.hasOwnProperty(code) && code.length > 2 && code.substring(0, 2) === $scope.selectedDepCode && code.indexOf("_") === -1) {
-					$scope.resultSimpleArray.push(code);
-					$scope.resultObjectArray.push({code: code, ville: $scope.priceData[code]});
+					if ($scope.priceData[code + "_app_prix"] || $scope.priceData[code + "_maison_prix"]) {
+						$scope.resultSimpleArray.push(code);
+						$scope.resultObjectArray.push({code: code, ville: $scope.priceData[code]});
+					}
 				}
 			}
 		}
 	};
 
+	$scope.searchChange = function () {
+		var code;
+		$scope.searchResults = [];
+		if ($scope.search && $scope.search.text !== "" && $scope.search.text.length > 1) {
+			for (code in $scope.priceData) {
+				if ($scope.priceData.hasOwnProperty(code) && $scope.priceData[code] && $scope.priceData[code].toLowerCase().indexOf($scope.search.text.toLowerCase()) >= 0) {
+					if (code.length > 5 && $scope.priceData[code + "_app_prix"]) {
+						$scope.searchResults.push({code: code, ville: $scope.priceData[code]});
+					} else if (code.length > 2 && code.indexOf("_") === -1 && ($scope.priceData[code + "_app_prix"] || $scope.priceData[code + "_maison_prix"])) {
+						$scope.searchResults.push({code: code, ville: $scope.priceData[code]});
+					}
+				}
+			}
+		}
+	};
+
+	$scope.linkto = function (link) {
+		window.open(link, "_system");
+	};
+
+	$scope.shareApp = function () {
+		if (window.plugins && window.plugins.socialsharing) {
+			window.plugins.socialsharing.share(null, null, null, "https://play.google.com/store/apps/details?id=com.phonegap.mobimmoidf");
+		}
+	};
 }]);
-/*
+
+mainapp.directive("gotoSelectVille", function () {
+	"use strict";
+	return function (scope, element, attrs) {
+		var select = element[0];
+		select.onchange = function () {
+			console.log("onchange");
+			var yCoord = $("#liVille" + select.value).position().top;
+			$("body").scrollTop(yCoord - 52);
+		};
+		if (scope.selectedVille) {
+			window.setTimeout(function () {
+				console.log("scope.selectedVille:", scope.selectedVille);
+				select.value = scope.selectedVille;
+				var y = $("#liVille" + scope.selectedVille).position().top;
+				$("body").scrollTop(y - 52);
+				scope.$apply(function () {
+					scope.selectedVille = undefined;
+				});
+			}, 0);
+		}
+	};
+});
+
+mainapp.directive("scrollUp", function () {
+	"use strict";
+	return function (scope, element, attrs) {
+		$("body").scrollTop(0);
+	};
+});
+
 document.addEventListener("deviceready", function () {
 	"use strict";
-*/
+
 	angular.bootstrap(document, ["mainapp"]);
-/*
+
 }, false);
-*/

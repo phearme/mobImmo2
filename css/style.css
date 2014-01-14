@@ -107,6 +107,7 @@ a, a:link, a:visited, a:hover, a:active {
 	background-color: #ffffff;
 	color: #000000;
 	margin: 4px;
+	padding: 4px;
 	font-size: 28px;
 	-webkit-box-shadow: 0px 1px 3px #89959A;
 	box-shadow: 0px 1px 3px #89959A;
@@ -128,6 +129,15 @@ a, a:link, a:visited, a:hover, a:active {
 	text-align: left;
 	background-color: #224958;
 	background-image: -webkit-linear-gradient(top, #224958, #446A7A);
+}
+
+.dropdownVille {
+	border: 0px;
+	background-color: #224958;
+	color: #ffffff;
+	font-size: 18px;
+	-webkit-box-shadow: 0px 1px 3px #89959A;
+	box-shadow: 0px 1px 3px #89959A;
 }
 
 .dataTable {
@@ -186,4 +196,23 @@ a, a:link, a:visited, a:hover, a:active {
 
 .varDown {
 	color: #ff0000;
+}
+
+.inputSearch {
+	width: 96%;
+	outline: none;
+	background-color: #E5E5E5;
+	background-image: -webkit-linear-gradient(top, #E5E5E5, #ffffff);
+	color: #000000;
+	-webkit-border-radius: 2px;
+	border: 0;
+	height: 42px;
+	font-size: 24px;
+	-webkit-box-shadow: 0px 0px 2px #ffffff;
+}
+
+.noResults {
+	margin-top: 8px;
+	font-size: 18px;
+	color: #89959A;
 }

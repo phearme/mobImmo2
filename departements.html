@@ -1,13 +1,15 @@
-﻿<div ng-repeat="(depCode, dep) in departements" class="departementBtn" ng-click="openDepartement(depCode)">
-	<div class="menuArrow">&#8250;</div>
-	<div>{{dep.nom}} ({{depCode}})</div>
-	<div class="depDetails">Prix (m&#178;): <b>{{priceData[depCode + '_app_prix']}} &#8364;</b></div>
-	<div class="depDetails">
-		Var. trimestre:
-		<font ng-class="{varDown: priceData[depCode + '_app_var_tri'][0] === '-', varUp: priceData[depCode + '_app_var_tri'][0] !== '-' && priceData[depCode + '_app_var_tri'] !== '0' && priceData[depCode + '_app_var_tri'] !== '0.0', strongVar: priceData[depCode + '_app_var_tri'] === '0' || priceData[depCode + '_app_var_tri'] === '0.0'}">
-			{{priceData[depCode + '_app_var_tri']}} &#37;
-			<span ng-hide="priceData[depCode + '_app_var_tri'][0] === '-'">&#8599;</span>
-			<span ng-show="priceData[depCode + '_app_var_tri'][0] === '-'">&#8600;</span>
-		</font>
+﻿<div scroll-up>
+	<div ng-repeat="(depCode, dep) in departements" class="departementBtn" ng-click="openDepartement(depCode)">
+		<div class="menuArrow">&#8250;</div>
+		<div>{{dep.nom}} ({{depCode}})</div>
+		<div class="depDetails">Prix (m&#178;): <b>{{priceData[depCode + '_app_prix']}} &#8364;</b></div>
+		<div class="depDetails">
+			Var. trimestre:
+			<font ng-class="{varDown: priceData[depCode + '_app_var_tri'][0] === '-', varUp: priceData[depCode + '_app_var_tri'][0] !== '-' && priceData[depCode + '_app_var_tri'] !== '0' && priceData[depCode + '_app_var_tri'] !== '0.0', strongVar: priceData[depCode + '_app_var_tri'] === '0' || priceData[depCode + '_app_var_tri'] === '0.0'}">
+				{{priceData[depCode + '_app_var_tri']}} &#37;
+				<span ng-hide="priceData[depCode + '_app_var_tri'][0] === '-'">&#8599;</span>
+				<span ng-show="priceData[depCode + '_app_var_tri'][0] === '-'">&#8600;</span>
+			</font>
+		</div>
 	</div>
 </div>
