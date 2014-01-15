@@ -58,10 +58,10 @@ mainapp.controller("mainCtrl", ["$scope", "$location", function ($scope, $locati
 			$scope.position = undefined;
 			$scope.loading = true;
 			navigator.geolocation.getCurrentPosition(function (position) {
+				alert(position.coords.latitude + " - " + position.coords.longitude);
 				$scope.position = position;
 				$scope.loading = false;
 				$scope.safeApply();
-				alert(position.coords.latitude, position.coords.longitude);
 				$scope.immoClient.getAddressInfo(position.coords.latitude, position.coords.longitude, function (data) {
 					var i, j, city, postal_code, code, result = {};
 					//console.log(data);
@@ -122,10 +122,11 @@ mainapp.controller("mainCtrl", ["$scope", "$location", function ($scope, $locati
 					}
 					$scope.safeApply();
 				});
-			}, function () {
+			}, function (err) {
+				alert(err.code + " " + err.message);
 				$scope.loading = false;
 				$scope.safeApply();
-			}, {enableHighAccuracy: false});
+			});
 		} else if (path === "/Search/") {
 			$scope.search = {text: ""};
 			$scope.searchResults = undefined;
