@@ -57,56 +57,58 @@ mainapp.controller("mainCtrl", ["$scope", "$location", function ($scope, $locati
 			$scope.geolocResults = [];
 			$scope.position = undefined;
 			$scope.loading = true;
-			navigator.geolocation.getCurrentPosition(function (position) {
-				alert(position.coords.latitude + " - " + position.coords.longitude);
-				$scope.position = position;
-				$scope.loading = false;
-				$scope.safeApply();
-				$scope.immoClient.getAddressInfo(position.coords.latitude, position.coords.longitude, function (data) {
-					var i, j, city, postal_code, code, result = {};
-					//console.log(data);
-					alert(data.results.length);
-					if (data && data.results && data.results.length > 0) {
-						for (i = 0; i < data.results.length; i += 1) {
-							for (j = 0; j < data.results[i].address_components.length; j += 1) {
-								// cas Paris => arrondissements
-								if (data.results[i].address_components[j].types.indexOf("postal_code") >= 0) {
-									postal_code = data.results[i].address_components[j].long_name;
-									console.log(postal_code);
-									if (postal_code.length === 5 && postal_code.indexOf("75") === 0) {
-										while (postal_code.indexOf("0") >= 0) {
-											postal_code = postal_code.replace("0", "_");
-										}
-										while (postal_code.indexOf("__") >= 0) {
-											postal_code = postal_code.replace("__", "_");
-										}
+			try {
+				navigator.geolocation.getCurrentPosition(function (position) {
+					alert(position.coords.latitude + " - " + position.coords.longitude);
+					$scope.position = position;
+					$scope.loading = false;
+					$scope.safeApply();
+					$scope.immoClient.getAddressInfo(position.coords.latitude, position.coords.longitude, function (data) {
+						var i, j, city, postal_code, code, result = {};
+						//console.log(data);
+						alert(data.results.length);
+						if (data && data.results && data.results.length > 0) {
+							for (i = 0; i < data.results.length; i += 1) {
+								for (j = 0; j < data.results[i].address_components.length; j += 1) {
+									// cas Paris => arrondissements
+									if (data.results[i].address_components[j].types.indexOf("postal_code") >= 0) {
+										postal_code = data.results[i].address_components[j].long_name;
 										console.log(postal_code);
-										for (code in $scope.priceData) {
-											if ($scope.priceData.hasOwnProperty(code)
-													&& $scope.priceData[code]
-													&& code.indexOf(postal_code) === 0) {
-												if (code.length > 5 && ($scope.priceData[code + "_app_prix"] || $scope.priceData[code + "_maison_prix"])) {
-													result[code] = $scope.priceData[code];
-													$scope.geolocResults.push({code: code, ville: $scope.priceData[code]});
+										if (postal_code.length === 5 && postal_code.indexOf("75") === 0) {
+											while (postal_code.indexOf("0") >= 0) {
+												postal_code = postal_code.replace("0", "_");
+											}
+											while (postal_code.indexOf("__") >= 0) {
+												postal_code = postal_code.replace("__", "_");
+											}
+											console.log(postal_code);
+											for (code in $scope.priceData) {
+												if ($scope.priceData.hasOwnProperty(code)
+														&& $scope.priceData[code]
+														&& code.indexOf(postal_code) === 0) {
+													if (code.length > 5 && ($scope.priceData[code + "_app_prix"] || $scope.priceData[code + "_maison_prix"])) {
+														result[code] = $scope.priceData[code];
+														$scope.geolocResults.push({code: code, ville: $scope.priceData[code]});
+													}
 												}
 											}
 										}
 									}
-								}
-								if (data.results[i].address_components[j].types.indexOf("locality") >= 0) {
-									// autres cas
-									city = data.results[i].address_components[j].long_name;
-									console.log(city);
-									if (city.toLowerCase() !== "paris") {
-										// recherche cette ville par lib
-										for (code in $scope.priceData) {
-											if ($scope.priceData.hasOwnProperty(code)
-													&& $scope.priceData[code]
-													&& ($scope.priceData[code].toLowerCase().indexOf(city.toLowerCase()) >= 0
-														|| city.toLowerCase().indexOf($scope.priceData[code].toLowerCase()) >= 0)) {
-												if (code.length > 2 && code.indexOf("_") === -1 && ($scope.priceData[code + "_app_prix"] || $scope.priceData[code + "_maison_prix"])) {
-													result[code] = $scope.priceData[code];
-													$scope.geolocResults.push({code: code, ville: $scope.priceData[code]});
+									if (data.results[i].address_components[j].types.indexOf("locality") >= 0) {
+										// autres cas
+										city = data.results[i].address_components[j].long_name;
+										console.log(city);
+										if (city.toLowerCase() !== "paris") {
+											// recherche cette ville par lib
+											for (code in $scope.priceData) {
+												if ($scope.priceData.hasOwnProperty(code)
+														&& $scope.priceData[code]
+														&& ($scope.priceData[code].toLowerCase().indexOf(city.toLowerCase()) >= 0
+															|| city.toLowerCase().indexOf($scope.priceData[code].toLowerCase()) >= 0)) {
+													if (code.length > 2 && code.indexOf("_") === -1 && ($scope.priceData[code + "_app_prix"] || $scope.priceData[code + "_maison_prix"])) {
+														result[code] = $scope.priceData[code];
+														$scope.geolocResults.push({code: code, ville: $scope.priceData[code]});
+													}
 												}
 											}
 										}
@@ -114,19 +116,21 @@ mainapp.controller("mainCtrl", ["$scope", "$location", function ($scope, $locati
 								}
 							}
 						}
-					}
-					for (code in result) {
-						if (result.hasOwnProperty(code)) {
-							$scope.geolocResults.push({code: code, ville: result[code]});
+						for (code in result) {
+							if (result.hasOwnProperty(code)) {
+								$scope.geolocResults.push({code: code, ville: result[code]});
+							}
 						}
-					}
+						$scope.safeApply();
+					});
+				}, function (err) {
+					alert(err.code + " " + err.message);
+					$scope.loading = false;
 					$scope.safeApply();
 				});
-			}, function (err) {
-				alert(err.code + " " + err.message);
-				$scope.loading = false;
-				$scope.safeApply();
-			});
+			} catch (e0) {
+				alert("caught an err: " + e0);
+			}
 		} else if (path === "/Search/") {
 			$scope.search = {text: ""};
 			$scope.searchResults = undefined;
