@@ -123,7 +123,7 @@ mainapp.controller("mainCtrl", ["$scope", "$location", function ($scope, $locati
 			}, function () {
 				$scope.loading = false;
 				$scope.safeApply();
-			}, {enableHighAccuracy: true});
+			}, {enableHighAccuracy: false});
 		} else if (path === "/Search/") {
 			$scope.search = {text: ""};
 			$scope.searchResults = undefined;
