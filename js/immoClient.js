@@ -64,5 +64,15 @@ var immoClient = {
 				callback(priceData);
 			}
 		});
+	},
+	getAddressInfo: function (lat, lng, callback) {
+		"use strict";
+		$.ajax({
+			url: "http://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat + "," + lng + "&sensor=true"
+		}).success(function (data) {
+			if (typeof callback === "function") {
+				callback(data);
+			}
+		});
 	}
 };

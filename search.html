@@ -2,6 +2,7 @@
 	<input class="inputSearch" type="search" placeholder="Ville ou quartier" ng-model="search.text" ng-change="searchChange()" />
 	<div ng-show="search !== '' && searchResults.length === 0" class="noResults">Aucun résultat pour cette recherche</div>
 	<div ng-repeat="searchResult in searchResults" class="departementBtn" ng-click="openVille(searchResult.code)">
-		<span>{{searchResult.ville}}</span>
+		<div class="mainMenuArrow">&#8250;</div>
+		<span ng-bind-html="immoClient.decodeCityName(searchResult.ville)"></span>
 	</div>
 </div>

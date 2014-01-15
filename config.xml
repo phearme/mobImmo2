@@ -21,9 +21,10 @@
         Enable individual API permissions here.
         The "device" permission is required for the 'deviceready' event.
     -->
+	<!--
     <feature name="http://api.phonegap.com/1.0/device" />
 	<feature name="http://api.phonegap.com/1.0/network" />
-
+	-->
     <!--
         If you do not want any permissions to be added to your app, add the
         following tag to your config.xml; you will still have the INTERNET
@@ -85,6 +86,7 @@
 
 	<gap:platform name="android" />
 	<gap:plugin name="nl.x-services.plugins.socialsharing" />
+	<gap:plugin name="org.apache.cordova.geolocation" />
 
     <!--
         Define access to external domains.
@@ -95,6 +97,7 @@
         Otherwise, you can specify specific domains:
     -->
 	<access origin="http://www.paris.notaires.fr" />
+	<access origin="http://maps.googleapis.com" />
 	<access origin="*" />
     <!--<access origin="http://127.0.0.1*"/>--> <!-- allow local pages -->
     <!--

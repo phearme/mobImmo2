@@ -1,1 +1,6 @@
-﻿
+﻿<div ng-hide="position">Localisation en cours...</div>
+<div ng-show="geolocResults.length === 0" class="noResults">Localisation indisponible.</div>
+<div ng-repeat="geolocResult in geolocResults" class="departementBtn" ng-click="openVille(geolocResult.code)">
+	<div class="mainMenuArrow">&#8250;</div>
+	<span ng-bind-html="immoClient.decodeCityName(geolocResult.ville)"></span>
+</div>

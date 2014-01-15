@@ -133,9 +133,11 @@ a, a:link, a:visited, a:hover, a:active {
 
 .dropdownVille {
 	border: 0px;
+	outline: none;
 	background-color: #224958;
 	color: #ffffff;
-	font-size: 18px;
+	font-size: 20px;
+	width: 96%;
 	-webkit-box-shadow: 0px 1px 3px #89959A;
 	box-shadow: 0px 1px 3px #89959A;
 }
