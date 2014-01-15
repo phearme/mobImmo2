@@ -59,9 +59,13 @@ mainapp.controller("mainCtrl", ["$scope", "$location", function ($scope, $locati
 			$scope.loading = true;
 			navigator.geolocation.getCurrentPosition(function (position) {
 				$scope.position = position;
+				$scope.loading = false;
+				$scope.safeApply();
+				alert(position.coords.latitude, position.coords.longitude);
 				$scope.immoClient.getAddressInfo(position.coords.latitude, position.coords.longitude, function (data) {
 					var i, j, city, postal_code, code, result = {};
 					//console.log(data);
+					alert(data.results.length);
 					if (data && data.results && data.results.length > 0) {
 						for (i = 0; i < data.results.length; i += 1) {
 							for (j = 0; j < data.results[i].address_components.length; j += 1) {
@@ -118,8 +122,6 @@ mainapp.controller("mainCtrl", ["$scope", "$location", function ($scope, $locati
 					}
 					$scope.safeApply();
 				});
-				$scope.loading = false;
-				$scope.safeApply();
 			}, function () {
 				$scope.loading = false;
 				$scope.safeApply();
