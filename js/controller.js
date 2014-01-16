@@ -123,7 +123,7 @@ mainapp.controller("mainCtrl", ["$scope", "$location", function ($scope, $locati
 			}, function (err) {
 				$scope.loading = false;
 				$scope.safeApply();
-			});
+			}, {maximumAge: 3000, timeout: 5000, enableHighAccuracy: true});
 		} else if (path === "/Search/") {
 			$scope.search = {text: ""};
 			$scope.searchResults = undefined;
