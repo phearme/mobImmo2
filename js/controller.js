@@ -58,12 +58,10 @@ mainapp.controller("mainCtrl", ["$scope", "$location", function ($scope, $locati
 			$scope.position = undefined;
 			$scope.loading = true;
 			navigator.geolocation.getCurrentPosition(function (position) {
-				alert(position.coords.latitude + "-" + position.coords.longitude);
 				$scope.position = position;
 				$scope.loading = false;
 				$scope.safeApply();
 				$scope.immoClient.getAddressInfo(position.coords.latitude, position.coords.longitude, function (data) {
-					alert(data.results.length);
 					var i, j, city, postal_code, code, result = {}, exists;
 					//console.log(data);
 					if (data && data.results && data.results.length > 0) {
@@ -87,7 +85,6 @@ mainapp.controller("mainCtrl", ["$scope", "$location", function ($scope, $locati
 													&& code.indexOf(postal_code) === 0) {
 												if (code.length > 5 && ($scope.priceData[code + "_app_prix"] || $scope.priceData[code + "_maison_prix"])) {
 													result[code] = $scope.priceData[code];
-													$scope.geolocResults.push({code: code, ville: $scope.priceData[code]});
 												}
 											}
 										}
@@ -106,7 +103,6 @@ mainapp.controller("mainCtrl", ["$scope", "$location", function ($scope, $locati
 														|| city.toLowerCase().indexOf($scope.priceData[code].toLowerCase()) >= 0)) {
 												if (code.length > 2 && code.indexOf("_") === -1 && ($scope.priceData[code + "_app_prix"] || $scope.priceData[code + "_maison_prix"])) {
 													result[code] = $scope.priceData[code];
-													$scope.geolocResults.push({code: code, ville: $scope.priceData[code]});
 												}
 											}
 										}
@@ -117,7 +113,6 @@ mainapp.controller("mainCtrl", ["$scope", "$location", function ($scope, $locati
 					}
 					for (code in result) {
 						if (result.hasOwnProperty(code)) {
-							alert(code, result[code]);
 							exists = false;
 							for (i = 0; i < $scope.geolocResults.length; i += 1) {
 								if ($scope.geolocResults[i].code === code || $scope.geolocResults[i].ville === result[code]) {
@@ -133,7 +128,6 @@ mainapp.controller("mainCtrl", ["$scope", "$location", function ($scope, $locati
 					$scope.safeApply();
 				});
 			}, function (err) {
-				alert("err: " + err);
 				$scope.loading = false;
 				$scope.safeApply();
 			});
