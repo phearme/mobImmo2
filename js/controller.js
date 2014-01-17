@@ -133,9 +133,10 @@ mainapp.controller("mainCtrl", ["$scope", "$location", function ($scope, $locati
 					$scope.safeApply();
 				});
 			}, function (err) {
+				alert("err: " + err);
 				$scope.loading = false;
 				$scope.safeApply();
-			}, {enableHighAccuracy: true});
+			});
 		} else if (path === "/Search/") {
 			$scope.search = {text: ""};
 			$scope.searchResults = undefined;
