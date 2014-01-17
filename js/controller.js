@@ -58,11 +58,13 @@ mainapp.controller("mainCtrl", ["$scope", "$location", function ($scope, $locati
 			$scope.position = undefined;
 			$scope.loading = true;
 			navigator.geolocation.getCurrentPosition(function (position) {
+				alert(position.coords.latitude + "-" + position.coords.longitude);
 				$scope.position = position;
 				$scope.loading = false;
 				$scope.safeApply();
 				$scope.immoClient.getAddressInfo(position.coords.latitude, position.coords.longitude, function (data) {
-					var i, j, city, postal_code, code, result = {};
+					alert(data.results.length);
+					var i, j, city, postal_code, code, result = {}, exists;
 					//console.log(data);
 					if (data && data.results && data.results.length > 0) {
 						for (i = 0; i < data.results.length; i += 1) {
@@ -115,7 +117,17 @@ mainapp.controller("mainCtrl", ["$scope", "$location", function ($scope, $locati
 					}
 					for (code in result) {
 						if (result.hasOwnProperty(code)) {
-							$scope.geolocResults.push({code: code, ville: result[code]});
+							alert(code, result[code]);
+							exists = false;
+							for (i = 0; i < $scope.geolocResults.length; i += 1) {
+								if ($scope.geolocResults[i].code === code || $scope.geolocResults[i].ville === result[code]) {
+									exists = true;
+									break;
+								}
+							}
+							if (!exists) {
+								$scope.geolocResults.push({code: code, ville: result[code]});
+							}
 						}
 					}
 					$scope.safeApply();
@@ -123,7 +135,7 @@ mainapp.controller("mainCtrl", ["$scope", "$location", function ($scope, $locati
 			}, function (err) {
 				$scope.loading = false;
 				$scope.safeApply();
-			});
+			}, {enableHighAccuracy: true});
 		} else if (path === "/Search/") {
 			$scope.search = {text: ""};
 			$scope.searchResults = undefined;
